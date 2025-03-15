@@ -25,11 +25,23 @@ sample_info <- read.table("sample_info.txt", header = TRUE, sep = '\t')
 ## 2. Data Preprocessing
 Replace zeros with NA and remove genes with incomplete data:
 ```r
+count_data[count_data == 0] <- NA
+filtered_counts <- count_data[complete.cases(count_data), ]
 ```
 
 ## 3. Running DESeq2 Analysis
 Create a DESeq2 dataset object and perform the analysis:
 ```r
+dds <- DESeqDataSetFromMatrix(countData = filtered_counts, 
+                              colData = sample_info, 
+                              design = ~ condition)
+
+# Filter out lowly expressed genes
+keep_genes <- rowSums(counts(dds)) >= 10
+dds <- dds[keep_genes, ]
+
+# Run DESeq2 analysis
+dds <- DESeq(dds)
 ```
 
 ## 4. Results and Outputs
@@ -71,5 +83,9 @@ DEG_results.csv	Sorted list of significantly differentially expressed genes
 rlog_transformed_counts.csv	Regularized log-transformed counts for visualization
 final_results.csv	Comprehensive combined results and normalized counts
 ![image](https://github.com/user-attachments/assets/ee06d7e3-2ef4-4728-8e9a-bf9ae3460e6c)
+
+📬 Contact
+For questions, suggestions, or issues, please reach out via:
+Email: bioinfosourabh@gmail.com
 
 
