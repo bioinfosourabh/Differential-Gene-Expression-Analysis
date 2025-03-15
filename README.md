@@ -73,7 +73,7 @@ Transform data for visualization using regularized log transformation:
 rlog_transformed <- rlog(dds)
 write.csv(assay(rlog_transformed), file = "rlog_transformed_counts.csv", quote = FALSE, row.names = TRUE)
 ```
-6. Combining Results for Interpretation
+## 6. Combining Results for Interpretation
 Merge differential expression results with normalized counts for comprehensive analysis:
 ```r
 final_data <- merge(as.data.frame(results_dds), 
@@ -86,13 +86,12 @@ write.csv(final_data, file = "final_results.csv", quote = FALSE, row.names = FAL
 ## Output Summary
 The analysis generates the following files:
 
-File	Description
-normalized_counts.csv	Normalized counts data for further analyses
-DEG_results.csv	Sorted list of significantly differentially expressed genes
-rlog_transformed_counts.csv	Regularized log-transformed counts for visualization
-final_results.csv	Comprehensive combined results and normalized counts
-![image](https://github.com/user-attachments/assets/ee06d7e3-2ef4-4728-8e9a-bf9ae3460e6c)
-
+| File | Description |
+|----------|----------|
+| normalized_counts.csv   | Normalized counts data for further analyses   |
+| DEG_results.csv   | Sorted list of significantly differentially expressed genes   |
+| rlog_transformed_counts.csv   | Regularized log-transformed counts for visualization   |
+| final_results.csv  | Comprehensive combined results and normalized counts   |
 
 📬 Contact
 For questions, suggestions, or issues, please reach out via:
