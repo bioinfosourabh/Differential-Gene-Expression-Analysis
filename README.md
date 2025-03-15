@@ -1,2 +1,74 @@
 # Differential-Gene-Expression-Analysis-with-DESeq2
-A reproducible and beginner-friendly pipeline for Differential Gene Expression analysis using DESeq2, complete with step-by-step documentation, example data, and ready-to-use scripts in R.
+A reproducible pipeline for Differential Gene Expression analysis using DESeq2, complete with step-by-step documentation, example data, and ready-to-use scripts in R.
+
+## Installation & Setup
+To install all the required R packages, execute the following commands in your R environment:
+```r
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(c("DESeq2", "apeglm"))
+library(DESeq2)
+library(apeglm)
+```
+
+## 1. Data Preparation
+Prepare two essential input files:
+- counts.csv: Raw counts of gene expression (genes in rows, samples in columns).
+- sample_info.txt: Sample metadata including experimental conditions.
+
+Load the data into R:
+```r
+count_data <- read.csv("counts.csv", header = TRUE, row.names = 1)
+sample_info <- read.table("sample_info.txt", header = TRUE, sep = '\t')
+```
+
+## 2. Data Preprocessing
+Replace zeros with NA and remove genes with incomplete data:
+```r
+```
+
+## 3. Running DESeq2 Analysis
+Create a DESeq2 dataset object and perform the analysis:
+```r
+```
+
+## 4. Results and Outputs
+Export normalized count data for downstream analysis:
+```r
+normalized_counts <- counts(dds, normalized = TRUE)
+write.csv(normalized_counts, "normalized_counts.csv")
+```
+
+Export Differential Expression Results
+```r
+results_dds <- results(dds, alpha = 0.05)
+significant_results <- results_dds[order(results_dds$padj), ]
+write.csv(significant_results, "DEG_results.csv")
+```
+
+## 5. Visualization Preparation
+Transform data for visualization using regularized log transformation:
+```r
+rlog_transformed <- rlog(dds)
+write.csv(assay(rlog_transformed), file = "rlog_transformed_counts.csv", quote = FALSE, row.names = TRUE)
+```
+6. Combining Results for Interpretation
+Merge differential expression results with normalized counts for comprehensive analysis:
+```r
+final_data <- merge(as.data.frame(results_dds), 
+                    as.data.frame(normalized_counts), 
+                    by = "row.names", sort = FALSE)
+names(final_data)[1] <- "Gene"
+write.csv(final_data, file = "final_results.csv", quote = FALSE, row.names = FALSE)
+```
+
+## Output Summary
+![image](https://github.com/user-attachments/assets/0e03f0f6-130d-4ac7-9e19-9b4fa5ba94d6)
+The analysis generates the following files:
+
+File	Description
+normalized_counts.csv	Normalized counts data for further analyses
+DEG_results.csv	Sorted list of significantly differentially expressed genes
+rlog_transformed_counts.csv	Regularized log-transformed counts for visualization
+final_results.csv	Comprehensive combined results and normalized counts
+![image](https://github.com/user-attachments/assets/c0227c38-c6e0-4cd3-a065-26b795d442e0)
