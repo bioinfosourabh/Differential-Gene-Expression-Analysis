@@ -1,0 +1,49 @@
+# Install and load required libraries
+packages <- c("DESeq2", "apeglm")
+if (!all(packages %in% installed.packages())) {
+    install.packages("BiocManager", dependencies = TRUE)
+    BiocManager::install(packages)
+}
+
+library(DESeq2)
+library(apeglm)
+
+# Load count data and sample metadata
+count_data <- read.csv("counts.csv", header = TRUE, row.names = 1)
+sample_info <- read.table("sample_info.txt", header = TRUE, sep = '\t')
+
+# Preprocess data: Replace zeros with NA and remove incomplete rows
+count_data[count_data == 0] <- NA
+filtered_counts <- count_data[complete.cases(count_data), ]
+
+# Create DESeq2 dataset
+dds <- DESeqDataSetFromMatrix(countData = filtered_counts, 
+                              colData = sample_info, 
+                              design = ~ condition)
+
+# Filter out lowly expressed genes
+keep_genes <- rowSums(counts(dds)) >= 10
+dds <- dds[keep_genes, ]
+
+# Run DESeq2 analysis
+dds <- DESeq(dds)
+
+# Export normalized counts
+normalized_counts <- counts(dds, normalized = TRUE)
+write.csv(normalized_counts, "normalized_counts.csv")
+
+# Extract and export differential expression results
+results_dds <- results(dds, alpha = 0.05)
+significant_results <- results_dds[order(results_dds$padj), ]
+write.csv(significant_results, "DEG_results.csv")
+
+# Transform data for visualization
+rlog_transformed <- rlog(dds)
+write.csv(assay(rlog_transformed), file = "rlog_transformed_counts.csv", quote = FALSE, row.names = TRUE)
+
+# Merge results with normalized counts
+final_data <- merge(as.data.frame(results_dds), 
+                    as.data.frame(normalized_counts), 
+                    by = "row.names", sort = FALSE)
+names(final_data)[1] <- "Gene"
+write.csv(final_data, file = "final_results.csv", quote = FALSE, row.names = FALSE)
