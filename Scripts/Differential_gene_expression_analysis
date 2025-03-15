@@ -46,4 +46,5 @@ final_data <- merge(as.data.frame(results_dds),
                     as.data.frame(normalized_counts), 
                     by = "row.names", sort = FALSE)
 names(final_data)[1] <- "Gene"
+
 write.csv(final_data, file = "final_results.csv", quote = FALSE, row.names = FALSE)
