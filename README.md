@@ -63,7 +63,6 @@ write.csv(final_data, file = "final_results.csv", quote = FALSE, row.names = FAL
 ```
 
 ## Output Summary
-![image](https://github.com/user-attachments/assets/0e03f0f6-130d-4ac7-9e19-9b4fa5ba94d6)
 The analysis generates the following files:
 
 File	Description
@@ -71,4 +70,6 @@ normalized_counts.csv	Normalized counts data for further analyses
 DEG_results.csv	Sorted list of significantly differentially expressed genes
 rlog_transformed_counts.csv	Regularized log-transformed counts for visualization
 final_results.csv	Comprehensive combined results and normalized counts
-![image](https://github.com/user-attachments/assets/c0227c38-c6e0-4cd3-a065-26b795d442e0)
+![image](https://github.com/user-attachments/assets/ee06d7e3-2ef4-4728-8e9a-bf9ae3460e6c)
+
+
