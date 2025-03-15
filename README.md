@@ -1,5 +1,14 @@
-# Differential-Gene-Expression-Analysis-with-DESeq2
+# Differential Gene Expression (DGE) Analysis with DESeq2: A Step-by-Step Workflow
 A reproducible pipeline for Differential Gene Expression analysis using DESeq2, complete with step-by-step documentation, example data, and ready-to-use scripts in R.
+
+## Purpose of This Repository
+This repository provides an accessible, reproducible, and well-documented pipeline for Differential Gene Expression (DGE) analysis.
+1. Installation and setup
+2. Data preparation and preprocessing
+3. Running differential expression analysis
+4. Exporting normalized counts and results
+5. Data transformation for visualization
+6. Combining results for interpretation
 
 ## Installation & Setup
 To install all the required R packages, execute the following commands in your R environment:
