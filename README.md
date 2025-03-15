@@ -13,9 +13,12 @@ This repository provides an accessible, reproducible, and well-documented pipeli
 ## Installation & Setup
 To install all the required R packages, execute the following commands in your R environment:
 ```r
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install(c("DESeq2", "apeglm"))
+packages <- c("DESeq2", "apeglm")
+if (!all(packages %in% installed.packages())) {
+    install.packages("BiocManager", dependencies = TRUE)
+    BiocManager::install(packages)
+}
+
 library(DESeq2)
 library(apeglm)
 ```
